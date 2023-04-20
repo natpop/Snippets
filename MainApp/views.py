@@ -51,6 +51,6 @@ def snippet_detail(request, id):
 #        return redirect('snippets-list')
 
 
-def create_snippet(request):
-   form = SnippetForm()
-   return render(request, 'add_snippet.html', {'form': form})
+def snippet_delete(request, id):
+   Snippet.objects.get(id=id).delete()
+   return redirect('snippets-list')

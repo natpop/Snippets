@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput, Textarea
 from .models import Snippet
 
 
@@ -8,3 +8,8 @@ class SnippetForm(ModelForm):
        model = Snippet
        # Описываем поля, которые будем заполнять в форме
        fields = ['name', 'lang', 'code']
+       labels = {"name":"", "lang":"Выбрать язык", "code":""}
+       widgets = {
+           "name": TextInput(attrs={'placeholder': 'Название сниппета'}),
+           'code': Textarea(attrs={'placeholder': 'Код сниппета'})
+       }
