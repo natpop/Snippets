@@ -1,5 +1,8 @@
 {% load static %}
+
 <header>
+
+
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
@@ -21,6 +24,27 @@
                         <a class="btn btn-outline-info" href="{% url 'snippets-list' %}">
                             Посмотреть сниппеты
                         </a>
+                    </li>
+
+                    <li>
+                        {% if request.user.is_authenticated %}
+                        <li></li>
+                            <p style="color: aliceblue;margin-left: 150px;">Приятной работы, {{request.user.username }}</p>
+                            
+                            <form action="{% url 'logout' %}">
+                                <button type="submit" style="margin-left: 150px;" class="btn btn-outline-info">Выход                                </button>
+                            </form>
+                        </li>
+                        {% else %}
+                            <form style="display: flex; margin-left: 150px;" class="btn btn-outline-info" method="post" action="{% url 'auth' %}">{% csrf_token %}
+                                <label for="username">username: </label>
+                                <input name="username"  type="text">
+                                <label for="password">password: </label>
+                                <input name="password"  type="password">
+                                <button type="submit">login</button>
+                            </form>
+                        </a>
+                        {% endif %}
                     </li>
                     
                 </ul>
