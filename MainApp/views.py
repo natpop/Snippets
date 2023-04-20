@@ -16,8 +16,17 @@ def add_snippet_page(request):
 
 def snippets_page(request):
     snippets = Snippet.objects.all()
+    len_snippets = len(snippets)
     context = {
         'pagename': 'Просмотр сниппетов',
         'snippets': snippets,
+        "len_snippets": len_snippets
     }
     return render(request, 'pages/view_snippets.html', context)
+
+def snippet_detail(request, id):
+    snippet = Snippet.objects.get(id=id)
+    return render(request, 'pages/snippet_detail.html', {
+        'pagename': 'Просмотр сниппетов',
+        'snippet': snippet,
+    })
