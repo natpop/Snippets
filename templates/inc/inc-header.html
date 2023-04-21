@@ -36,6 +36,7 @@
                             </form>
                         </li>
                         {% else %}
+                        
                             <form style="display: flex; margin-left: 150px;" class="btn btn-outline-info" method="post" action="{% url 'auth' %}">{% csrf_token %}
                                 <label for="username">username: </label>
                                 <input name="username"  type="text">
