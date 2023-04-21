@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .models import Snippet    
 from MainApp.forms import SnippetForm
 from django.contrib import auth
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def index_page(request):
@@ -36,11 +37,15 @@ def snippets_page(request):
     return render(request, 'pages/view_snippets.html', context)
 
 def snippet_detail(request, id):
-    snippet = Snippet.objects.get(id=id)
-    return render(request, 'pages/snippet_detail.html', {
-        'pagename': 'Просмотр сниппетов',
-        'snippet': snippet,
-    })
+    try:
+        snippet = Snippet.objects.get(id=id)
+        return render(request, 'pages/snippet_detail.html', {
+            'pagename': 'Просмотр сниппетов',
+            'snippet': snippet,
+            "type": "view",
+        })
+    except ObjectDoesNotExist:
+        raise Http404
 
 #def snippet_create(request):
 #    if request.method == 'POST':
@@ -74,3 +79,23 @@ def logout(request):
     auth.logout(request)
     return redirect('home')
 
+
+def snippet_edit(request, id):
+    try:
+        snippet = Snippet.objects.get(id=id)
+        
+    except ObjectDoesNotExist:
+        raise Http404
+    if request.method == 'GET':
+        return render(request, 'pages/snippet_detail.html', {
+            'pagename': 'Просмотр сниппетов',
+            'snippet': snippet,
+            "type": "edit"
+        })
+    if request.method == 'POST':
+        form_data = request.POST
+        snippet.name = form_data["name"]
+        snippet.code = form_data["code"]
+        snippet.creation_date = form_data["creation_date"]
+        snippet.save()
+        return redirect("snippets-list")

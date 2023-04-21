@@ -9,6 +9,7 @@
             <hr>
         </div>
     </div>
+{% if type == 'view' %}
 <fieldset disabled>
     <div class="row disabled">
         <div class="col col-8">
@@ -22,6 +23,23 @@
         </div>
     </div>
     <hr>
- 
+ {% elif type == 'edit' %}
+ <form action="" method="post">
+    {% csrf_token %}
+    <div class="row disabled">
+        <div class="col col-8">
+            Название: <input name="name" type="text" value="{{ snippet.name }}" class="form-control">
+        </div>
+        <div class="col col-4">
+            Дата создания:<input name="creation_date" type="text" value="{{ snippet.creation_date }}" class="form-control">
+        </div>
+        <div class="col col-4">
+            Код:<input name="code" type="text" value="{{ snippet.code }}" class="form-control">
+        </div>
+    </div>
+    <button type="submit">Обновить</button>
+</form>
+
+ {% endif %}
 
 {% endblock %}
