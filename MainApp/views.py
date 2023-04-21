@@ -33,8 +33,11 @@ def add_snippet_page(request):
 
 def snippets_page(request):
 
-    snippets = Snippet.objects.all()
+    snippets = Snippet.objects.filter(pablic=True)
     len_snippets = len(snippets)
+    if request.user.is_authenticated:
+        snippets = Snippet.objects.filter(user = request.user) | Snippet .objects.filter(pablic=True)
+        
     context = {
         'pagename': 'Просмотр сниппетов',
         'snippets': snippets,
