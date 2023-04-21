@@ -26,14 +26,14 @@ class UserRegistrationForm(ModelForm):
     password2 = CharField(label="password2", widget=PasswordInput)
 
     def clean_password2(self):
-        pass1 = self.changed_data.get("password1")
-        pass2 = self.changed_data.get("password2")
+        pass1 = self.cleaned_data.get("password1")
+        pass2 = self.cleaned_data.get("password2")
         if pass1 and pass2 and pass1 == pass2:
             return pass2
         
     def save(self,commit=True):
         user = super().save(commit=False)
-        user.set_password(self.changed_data["password1"])
+        user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user

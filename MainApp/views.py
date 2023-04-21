@@ -34,14 +34,13 @@ def add_snippet_page(request):
 def snippets_page(request):
 
     snippets = Snippet.objects.filter(pablic=True)
-    len_snippets = len(snippets)
     if request.user.is_authenticated:
         snippets = Snippet.objects.filter(user = request.user) | Snippet .objects.filter(pablic=True)
         
     context = {
         'pagename': 'Просмотр сниппетов',
         'snippets': snippets,
-        "len_snippets": len_snippets
+        "len_snippets": snippets.count()
     }
     return render(request, 'pages/view_snippets.html', context)
 
@@ -95,6 +94,11 @@ def create_user(request):
         if form.is_valid():
             form.save()
             return redirect('home')
+        return render(request, "pages/reg.html", {
+            'pagename': 'Регистрация',
+            "form": form,
+
+        })
 
 def login_page(request):
     if request.method == 'POST':
