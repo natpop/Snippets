@@ -6,7 +6,7 @@ from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', views.login_page, name="auth"),
+    path('logon/', views.login_page, name="logon"),
     path('logout/', views.logout, name="logout"),
     path('', views.index_page, name="home"),
     path('snippets/add', views.add_snippet_page, name="snippets-add"),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('snippet/<int:id>', views.snippet_detail, name="snippet_detail"),
     path('delete/<int:id>', views.snippet_delete, name="snippet_delete"),
     path('edit/<int:id>', views.snippet_edit, name="snippet_edit"),
+    path('register', views.create_user, name="create_user"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

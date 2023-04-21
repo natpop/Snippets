@@ -42,7 +42,7 @@
                         </li>
                         {% else %}
                         
-                            <form style="display: flex; margin-left: 150px;" class="btn btn-outline-info" method="post" action="{% url 'auth' %}">{% csrf_token %}
+                            <form style="display: flex; margin-left: 150px;" class="btn btn-outline-info" method="post" action="{% url 'logon' %}">{% csrf_token %}
                                 <label for="username">username: </label>
                                 <input name="username"  type="text">
                                 <label for="password">password: </label>
@@ -55,11 +55,13 @@
                 </ul>
                 
             </div>
+            {% if errors %}
+                {% for er in error %}
+                    <li style="color: red;">{{ er }}</li>
+                {% endfor %}
+            {% endif %}
+            <a style="padding-left: 10px;" href="{% url 'create_user' %}" type="button">Регистрация</a>
         </div>
-        {% if errors %}
-                    {% for er in error %}
-                        <li style="color: red;">{{ er }}</li>
-                    {% endfor %}
-                {% endif %}
+        
     </nav>
 </header>
