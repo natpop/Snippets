@@ -36,6 +36,9 @@
         <div class="col col-4">
             Код:<input name="code" type="text" value="{{ snippet.code }}" class="form-control">
         </div>
+        <div class="col col-4">
+            Код:<input name="pablic" value="True" type="checkbox" {% if snippet.pablic %} checked {% endif %} class="form-control">
+        </div>
     </div>
     <button type="submit">Обновить</button>
 </form>

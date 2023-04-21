@@ -44,6 +44,10 @@
                             {% if request.user == snippet.user %}
                             <td><a href="{% url 'snippet_edit' snippet.id %}">Редактировать</a></td>
                             <td><a href="{% url 'snippet_delete' snippet.id %}">Удалить</a></td>
+                            {% else %}
+                            <td></td>
+                            <td></td>
+                            
                             {% endif %}
                         </tr>
                     {% endfor %}
