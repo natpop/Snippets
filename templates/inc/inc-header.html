@@ -1,8 +1,6 @@
 {% load static %}
 
 <header>
-
-
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
@@ -15,17 +13,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
+                    {% if request.user.is_authenticated %}
                     <li class="form-inline">
                         <a class="btn btn-outline-secondary" href="{% url 'snippets-add' %}">
                             Добавить сниппет
                         </a>
                     </li>
+
+                    <li class="form-inline">
+                        <a class="btn btn-outline-info" href="{% url 'my_snippets-list' %}">
+                            Мои сниппеты
+                        </a>
+                    </li>
+                    {% endif %}
                     <li class="form-inline">
                         <a class="btn btn-outline-info" href="{% url 'snippets-list' %}">
                             Посмотреть сниппеты
                         </a>
                     </li>
-
                     <li>
                         {% if request.user.is_authenticated %}
                         <li></li>
@@ -44,12 +49,17 @@
                                 <input name="password"  type="password">
                                 <button type="submit">login</button>
                             </form>
-                        </a>
                         {% endif %}
                     </li>
                     
                 </ul>
+                
             </div>
         </div>
+        {% if errors %}
+                    {% for er in error %}
+                        <li style="color: red;">{{ er }}</li>
+                    {% endfor %}
+                {% endif %}
     </nav>
 </header>

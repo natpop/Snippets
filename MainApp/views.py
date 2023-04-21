@@ -4,13 +4,14 @@ from .models import Snippet
 from MainApp.forms import SnippetForm
 from django.contrib import auth
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 
 def index_page(request):
     context = {'pagename': 'PythonBin'}
     return render(request, 'pages/index.html', context)
 
-
+@login_required
 def add_snippet_page(request):
     form = SnippetForm()
 
@@ -29,7 +30,9 @@ def add_snippet_page(request):
             return redirect('snippets-list')
         return render(request, 'pages/add_snippet.html', {"form":form})
 
+
 def snippets_page(request):
+
     snippets = Snippet.objects.all()
     len_snippets = len(snippets)
     context = {
@@ -38,6 +41,16 @@ def snippets_page(request):
         "len_snippets": len_snippets
     }
     return render(request, 'pages/view_snippets.html', context)
+
+@login_required
+def my_snippets_page(request):
+    snippets = Snippet.objects.filter(user = request.user) 
+
+    return render(request, 'pages/view_snippets.html', {
+        'pagename': 'Мои сниппеты',
+        'snippets': snippets,
+    })
+
 
 def snippet_detail(request, id):
     try:
@@ -74,7 +87,9 @@ def login_page(request):
        if user is not None:
            auth.login(request, user)
        else:
-           # Return error message
+           return render(request, "pages/index.html", {
+               "errors": ["error login or pass"]
+           })
            pass
     return redirect('home')
 
